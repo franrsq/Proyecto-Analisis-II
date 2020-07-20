@@ -81,4 +81,52 @@ public class Graph {
             aux = aux.nextVertex;
         }
     }
+    
+    /**
+     * 
+     */
+    public void printGraph(){
+        for(Vertex aux = this.firstVertex;aux != null; aux = aux.nextVertex){
+            for(Arc arcAux = aux.firstArc;arcAux != null; arcAux = arcAux.nextArc){
+                System.out.println(aux.getNumber()+" -- "+arcAux.getWeight()+" --> "+arcAux.getDestination().getNumber());
+            }
+            System.out.println("");
+        }
+    }
+    
+     /**
+     * Algoritmo voraz.
+     */
+    public void voracious(){
+        Vertex aux = this.firstVertex;
+        Arc auxArc;
+        while (true) {  
+            //busca el primer arco libre y de menor peso 
+            Arc less = null;
+            for(auxArc = aux.firstArc; auxArc != null;auxArc = auxArc.nextArc){
+                if(!auxArc.getDestination().mark){
+                    if(less == null){
+                        less = auxArc;
+                        continue;
+                    }
+                    
+                    if(auxArc.getWeight() < less.getWeight())
+                        less = auxArc;
+                }
+            }     
+            
+            if(less != null){
+                aux.mark =true;
+                System.out.print(aux.getNumber()+"->");
+                aux = less.getDestination();
+                if(aux == this.lastVertex){
+                    System.out.print(aux.getNumber());
+                    break;
+                }
+                continue;
+            }
+            
+            break;
+        }
+    }
 }
