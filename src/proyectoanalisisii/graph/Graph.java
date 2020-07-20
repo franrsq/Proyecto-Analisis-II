@@ -34,6 +34,7 @@ public class Graph {
      */
     public void addArc(Vertex source, Vertex destination) {
         Arc newArc = new Arc(destination);
+        newArc.source = source;
         if (source.firstArc == null) {
             source.firstArc = newArc;
         } else {

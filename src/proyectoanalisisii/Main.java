@@ -1,6 +1,9 @@
 package proyectoanalisisii;
 
+import dinamicAlgorithm.DijkstraAlgorithm;
+import java.util.LinkedList;
 import proyectoanalisisii.graph.Graph;
+import proyectoanalisisii.graph.Vertex;
 
 public class Main {
 
@@ -13,7 +16,13 @@ public class Main {
         graph.createGraph(10);
         graph.printGraph();
         graph.voracious();
-        
+
+        DijkstraAlgorithm disjkstra = new DijkstraAlgorithm(grafo);
+        disjkstra.execute(grafo.firstVertex);
+        LinkedList<Vertex> path = disjkstra.getPath(grafo.lastVertex);
+        for (Vertex vertex : path) {
+            System.out.println(vertex.getNumber());
+        }
     }
 
 }
