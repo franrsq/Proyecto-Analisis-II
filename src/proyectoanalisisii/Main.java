@@ -17,9 +17,9 @@ public class Main {
         graph.printGraph();
         graph.voracious();
 
-        DijkstraAlgorithm disjkstra = new DijkstraAlgorithm(grafo);
-        disjkstra.execute(grafo.firstVertex);
-        LinkedList<Vertex> path = disjkstra.getPath(grafo.lastVertex);
+        DijkstraAlgorithm disjkstra = new DijkstraAlgorithm(graph);
+        disjkstra.execute(graph.firstVertex);
+        LinkedList<Vertex> path = disjkstra.getPath(graph.lastVertex);
         for (Vertex vertex : path) {
             System.out.println(vertex.getNumber());
         }

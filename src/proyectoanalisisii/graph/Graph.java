@@ -121,7 +121,8 @@ public class Graph {
                 System.out.print(aux.getNumber()+"->");
                 aux = less.getDestination();
                 if(aux == this.lastVertex){
-                    System.out.print(aux.getNumber());
+                    System.out.println(aux.getNumber());
+                    this.clearMarks();
                     break;
                 }
                 continue;
