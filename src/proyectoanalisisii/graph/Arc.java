@@ -7,7 +7,7 @@ package proyectoanalisisii.graph;
 public class Arc {
 
     public Arc nextArc;
-
+    public Vertex source;
     private Vertex destination;
     private int weight; // Peso del arco, numero aleatorio de 1 a 99
 
@@ -37,6 +37,10 @@ public class Arc {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+    
+    public Vertex getSource() {
+        return source;
     }
 
 }
