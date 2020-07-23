@@ -11,11 +11,22 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Graph grafo = new Graph();
-        grafo.createGraph(10);
-        DijkstraAlgorithm disjkstra = new DijkstraAlgorithm(grafo);
-        disjkstra.execute(grafo.firstVertex);
-        LinkedList<Vertex> path = disjkstra.getPath(grafo.lastVertex);
+        
+        Graph graph = new Graph();
+        graph.createGraph(10);
+        
+        //Voraz
+        //graph.printGraph();
+        graph.voracious();
+
+        //Genetico
+        graph.genetic();
+        
+        
+        //Dinamico
+        DijkstraAlgorithm disjkstra = new DijkstraAlgorithm(graph);
+        disjkstra.execute(graph.firstVertex);
+        LinkedList<Vertex> path = disjkstra.getPath(graph.lastVertex);
         for (Vertex vertex : path) {
             System.out.println(vertex.getNumber());
         }
