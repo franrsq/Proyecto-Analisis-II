@@ -14,9 +14,16 @@ public class Main {
         
         Graph graph = new Graph();
         graph.createGraph(10);
-        graph.printGraph();
+        
+        //Voraz
+        //graph.printGraph();
         graph.voracious();
 
+        //Genetico
+        graph.genetic();
+        
+        
+        //Dinamico
         DijkstraAlgorithm disjkstra = new DijkstraAlgorithm(graph);
         disjkstra.execute(graph.firstVertex);
         LinkedList<Vertex> path = disjkstra.getPath(graph.lastVertex);
