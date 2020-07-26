@@ -45,12 +45,26 @@ public class Vertex {
      * @return Arc si esta en el rango o Null si esta afuera del rango.
      */
     public Arc getArcInPosition(int index){
-        if(this.totalArcs-1 < 0 || index > this.totalArcs)
+        Graph.lineas++;
+        Graph.comparaciones+=2;
+        if(this.totalArcs-1 < 0 || index > this.totalArcs){
+            Graph.lineas++;
             return null;
+        }
+        Graph.lineas++;
+        Graph.asignaciones++;
         Arc aux = this.firstArc;
+        
+        Graph.lineas++;
+        Graph.asignaciones++;
         for( int i = 0; i<= index; i++ ){
+            Graph.lineas++;
+            Graph.comparaciones++;
+            Graph.lineas++;
+            Graph.asignaciones++;
             aux = aux.nextArc;
         } 
+        Graph.lineas++;
         return aux;
     }
     
@@ -58,13 +72,23 @@ public class Vertex {
      * Busca el arco que apunta al vertices espcificado
      * @param vertex vertice que apunta el arco 
      * @return Arc si se encunetra el arco o Null si no se encuntra .
+     * Formula: 3n + 4.
      */
     public Arc getArcToVertex(Vertex vertex){
-        for( Arc aux = this.firstArc; aux != null; aux = aux.nextArc){       
-            if(  aux.getDestination() == vertex ){
-                return aux;
+        Graph.asignaciones++;
+        Graph.lineas++;
+        for( Arc aux = this.firstArc; aux != null; aux = aux.nextArc){   // 1+n+1+n    
+            Graph.comparaciones++;
+            Graph.lineas++;
+        
+            Graph.comparaciones++;
+            Graph.lineas++;
+            if(  aux.getDestination() == vertex ){ //n
+                Graph.lineas++;
+                return aux; //1
             }
         }
-        return null;
+        Graph.lineas++;
+        return null; //1
     }
 }

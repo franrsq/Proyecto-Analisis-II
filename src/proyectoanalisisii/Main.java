@@ -1,6 +1,7 @@
 package proyectoanalisisii;
 
 import dinamicAlgorithm.DijkstraAlgorithm;
+import java.lang.instrument.Instrumentation;
 import java.util.LinkedList;
 import proyectoanalisisii.graph.Graph;
 import proyectoanalisisii.graph.Vertex;
@@ -14,13 +15,22 @@ public class Main {
         
         Graph graph = new Graph();
         graph.createGraph(10);
-        
+       
         //Voraz
-        //graph.printGraph();
+        //graph.printGraph();  
+        long start = System.currentTimeMillis();
         graph.voracious();
-
-        //Genetico
+        long finish = System.currentTimeMillis();
+        graph.printVars(finish - start);
+        
+        start = System.currentTimeMillis();
         graph.genetic();
+        finish = System.currentTimeMillis();
+        graph.printVars(finish - start);
+        
+ 
+        //Genetico
+        
         
         
         //Dinamico
@@ -31,5 +41,5 @@ public class Main {
             System.out.println(vertex.getNumber());
         }
     }
-
+    
 }
