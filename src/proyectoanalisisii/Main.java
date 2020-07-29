@@ -36,14 +36,20 @@ public class Main {
         //Genetico
         
         
-        /*
+        
         //Dinamico
         DijkstraAlgorithm disjkstra = new DijkstraAlgorithm(graph);
+        start = System.currentTimeMillis();
         disjkstra.execute(graph.firstVertex);
         LinkedList<Vertex> path = disjkstra.getPath(graph.lastVertex);
+        finish = System.currentTimeMillis();
+        System.out.println("--Dinamico--");
+        graph.printVars(finish - start);
+        System.out.print("Mejor ruta:");
         for (Vertex vertex : path) {
-            System.out.println(vertex.getNumber());
-        }*/
+            System.out.print("-->"+vertex.getNumber());
+        }
+        System.out.println("\n");
     }
     
 }
