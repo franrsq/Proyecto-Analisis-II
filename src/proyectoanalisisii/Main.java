@@ -2,10 +2,10 @@ package proyectoanalisisii;
 
 import dinamicAlgorithm.DijkstraAlgorithm;
 import geneticAlgorithm.GeneticAlgorithm;
-import java.lang.instrument.Instrumentation;
 import java.util.LinkedList;
 import proyectoanalisisii.graph.Graph;
 import proyectoanalisisii.graph.Vertex;
+import voraciousAlgorithm.VoraciousAlgorithm;
 
 public class Main {
 
@@ -18,9 +18,9 @@ public class Main {
         graph.createGraph(10);
      
         //Voraz
-        //graph.printGraph();  
+        VoraciousAlgorithm voracius = new VoraciousAlgorithm(graph);
         long start = System.currentTimeMillis();
-        graph.voracious();
+        voracius.execute();
         long finish = System.currentTimeMillis();
         graph.printVars(finish - start);
     
