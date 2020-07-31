@@ -107,12 +107,24 @@ public class GeneticAlgorithm {
      *
      * @param routes Formula: (2n[2]+7x+2)/2
      */
-    private void printRoutes(Vertex[][] routes) {
-        for (int i = 0; i < routes.length; i++) { // 2n+2
-            for (int a = 0; a < routes[i].length - 1; a++) { // n(1+ (n/2)+ (n-2)/2 ) == n[2]
-                System.out.print(routes[i][a].getNumber() + "-->"); //(n-2)/2
+    private void printRoutes(Vertex[][] routes){
+        Graph.lineas++;
+        Graph.comparaciones++;
+        for(int i= 0; i < routes.length;i++){ // 2n+2
+            Graph.lineas++;
+            Graph.comparaciones++;
+        
+            Graph.lineas++;
+            Graph.comparaciones++;
+            for(int a = 0; a<routes[i].length-1;a++){ // n(1+ (n/2)+ (n-2)/2 ) == n[2]
+                Graph.lineas++;
+                Graph.comparaciones++;
+                
+                Graph.lineas++;
+                System.out.print(routes[i][a].getNumber()+"-->"); //(n-2)/2
             }
-            System.out.println(routes[i][routes[i].length - 1].getNumber() + ""); //n
+            Graph.lineas++;
+            System.out.println(routes[i][routes[i].length-1].getNumber()+""); //n
         }
     }
 
@@ -124,14 +136,24 @@ public class GeneticAlgorithm {
      */
     private Vertex[] partiallyMatchedCrossover(Vertex[] route) {
         //4*
-        int min = (int) (Math.random() * (route.length >>> 1)) + 1;   //1
-        int max = (int) (Math.random() * (route.length - min - 1)) + min; //1
+        Graph.lineas+= 4;
+        Graph.asignaciones += 4;
+        int min = (int) (Math.random() * (route.length >>> 1))+1;   //1
+        int max = (int) (Math.random() * (route.length-min-1))+min; //1
         int y = max; //1
         int weight = 0; //1
         // (3n[2]+35x+10)/2 *
-        for (int i = 0; i < route.length; i++) { //n+2
+        Graph.lineas++;
+        Graph.comparaciones++;
+        for(int i = 0; i < route.length;i++){ //n+2
+            Graph.lineas++;
+            Graph.comparaciones++;
             //3n+5*
-            if (i >= min && i < max) { // n/2
+            Graph.lineas++;
+            Graph.comparaciones++;
+            if(i >= min && i<max){ // n/2
+                Graph.lineas += 5;
+                Graph.asignaciones += 5;
                 Vertex vertex1 = route[i]; // (n+2)/2
                 Vertex vertex2 = route[y]; // (n+2)/2
                 route[i] = vertex2; // (n+2)/2
@@ -139,23 +161,33 @@ public class GeneticAlgorithm {
                 y--; // -(n+2)/2
             }
             //(3n-14+3n[2])/2*
-            if (i < route.length - 1) { // n/2
+            Graph.lineas++;
+            Graph.comparaciones++;
+            if(i < route.length-1){ // n/2
+                Graph.lineas+=5;
+                Graph.asignaciones+=4;
                 Vertex aux = route[i]; // (n-2)/2
                 Vertex aux2 = route[i + 1];  // (n-2)/2
                 Arc arc = aux.getArcToVertex(aux2);  // ((n-2)/2)(3n + 4)
                 System.out.print(aux.getNumber() + " -[" + arc.getWeight() + "]-> "); //  (n-2)/2
                 weight += arc.getWeight(); // (n-2)/2
-            } else {
+            }else{
+                Graph.lineas++;
                 System.out.print(route[i].getNumber()); //1
             }
         }
         //5
-        if (this.shortRoute == null || weight < this.weight) { //1
-            this.shortRoute = route; //1
+        Graph.lineas++;
+        Graph.comparaciones++;
+        if(this.ShortRoute == null || weight < this.weight){ //1
+            Graph.lineas+=2;
+            Graph.asignaciones +=2;
+            this.ShortRoute = route; //1
             this.weight = weight; //1
         }
-
-        System.out.println(" weight: " + weight); //1
+        Graph.lineas+=2;
+        Graph.asignaciones++;
+        System.out.println(" weight: "+weight); //1
         return route; //1 
     }
 }
