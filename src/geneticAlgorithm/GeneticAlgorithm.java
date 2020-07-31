@@ -179,10 +179,10 @@ public class GeneticAlgorithm {
         //5
         Graph.lineas++;
         Graph.comparaciones++;
-        if(this.ShortRoute == null || weight < this.weight){ //1
+        if(this.shortRoute == null || weight < this.weight){ //1
             Graph.lineas+=2;
             Graph.asignaciones +=2;
-            this.ShortRoute = route; //1
+            this.shortRoute = route; //1
             this.weight = weight; //1
         }
         Graph.lineas+=2;
