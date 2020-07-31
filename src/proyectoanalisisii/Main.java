@@ -6,6 +6,7 @@ import geneticAlgorithm.GeneticAlgorithm;
 import java.util.LinkedList;
 import proyectoanalisisii.graph.Graph;
 import proyectoanalisisii.graph.Vertex;
+import prunningAlgorithm.PrunningAlgorithm;
 import voraciousAlgorithm.VoraciousAlgorithm;
 
 public class Main {
@@ -72,6 +73,25 @@ public class Main {
         System.out.println("Rutas válidas: " + backtracking.getValidRoutesSize());
         System.out.println("Rutas al azar:");
         for (String ruta : backtracking.getRandomRoutes()) {
+            System.out.println("    " + ruta);
+        }
+        graph.printVars(finish - start);
+
+        // Se limpian los contadores
+        graph.clearVars();
+
+        //Poda
+        PrunningAlgorithm prunning = new PrunningAlgorithm(graph);
+        System.out.println("--Poda--");
+        start = System.currentTimeMillis();
+        prunning.prunningHelper();
+        finish = System.currentTimeMillis();
+        System.out.println(prunning.getFinalRoute() + " Peso: "
+                + prunning.getFinalDistance());
+        System.out.println("Cantidad rutas podas: "
+                + prunning.getPrunnedRoutesQuantity());
+        System.out.println("Rutas podas (5):");
+        for (String ruta : prunning.getPrunnedRoutes()) {
             System.out.println("    " + ruta);
         }
         graph.printVars(finish - start);
