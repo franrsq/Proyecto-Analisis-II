@@ -9,18 +9,20 @@ import proyectoanalisisii.graph.Vertex;
  * @author Daniel
  */
 public class GeneticAlgorithm {
-    
+
     private Graph graph;
-    public Vertex[] ShortRoute;
+    public Vertex[] shortRoute;
     public int weight;
-    
+
     public GeneticAlgorithm(Graph graph) {
         this.graph = graph;
+        this.graph.clearMarks();
+        this.graph.clearVars();
     }
-    
+
     /**
-     * Genera rutas aletorias y ejecuta el algoritmo genetico
-     * Formula: (17x[3]+33x[2]+126x+256)/8
+     * Genera rutas aletorias y ejecuta el algoritmo genetico Formula:
+     * (17x[3]+33x[2]+126x+256)/8
      */
     public void execute() {
         // ((7n[3]-5n[2]+14n)/4)+4*
@@ -30,14 +32,14 @@ public class GeneticAlgorithm {
         Graph.lineas++;
         Graph.asignaciones++;
         Vertex[][] randomRoutes = new Vertex[mid >>> 1][mid]; //1
-        
+
         Graph.lineas++;
         Graph.asignaciones++;
         Graph.comparaciones++;
         for (int i = 0; i < mid >>> 1; i++) { // n+2 
             Graph.lineas++;
             Graph.comparaciones++;
-            
+
             Graph.lineas++;
             Graph.asignaciones++;
             Vertex[] randomRoute = this.graph.generateRandomRoute(mid); // (7n[3]-8n[2]+6n)/4
@@ -47,36 +49,36 @@ public class GeneticAlgorithm {
             Graph.lineas++;
             this.graph.clearMarks(); // (3n[2]+2n)/4
         }
-        
+
         System.out.println("Generacion: 0");
         // (3x[3]+43x[2]+98x+224)/8*
         Graph.lineas++;
         this.printRoutes(randomRoutes); // (2n[2]+7x+2)/2 
-        
+
         Graph.lineas++;
         Graph.asignaciones++;
         Graph.comparaciones++;
         for (int i = 0; i < 4; i++) { // 9
             Graph.lineas++;
             Graph.comparaciones++;
-            
-            System.out.println("Generacion: "+(i+1));
-            
+
+            System.out.println("Generacion: " + (i + 1));
+
             Graph.lineas++;
             Graph.comparaciones++;
             Graph.asignaciones++;
             for (int index = 0; index < randomRoutes.length; index++) { // (9x+36)/2
                 Graph.lineas++;
                 Graph.comparaciones++;
-            
+
                 Graph.lineas++;
                 Graph.asignaciones++;
                 Vertex[] route = randomRoutes[index]; //n/4
-                
+
                 Graph.lineas++;
                 Graph.asignaciones++;
                 route = partiallyMatchedCrossover(route); // (n/4) ((3x[2]+35x+28)/2)
-                
+
                 Graph.lineas++;
                 Graph.asignaciones++;
                 randomRoutes[index] = route; // n/4
@@ -84,22 +86,26 @@ public class GeneticAlgorithm {
             System.out.println("");
         }
     }
-    
+
     /**
      * Imprime la ruta más corta encontrada
      */
-    public void printRoute(){
+    public void printRoute() {
         System.out.print("Mejor Ruta:");
-        for(Vertex aux : this.ShortRoute){
-            System.out.print(aux.getNumber()+"-->");
+        for (int i = 0; i < this.shortRoute.length; i++) {
+            if (i == this.shortRoute.length - 1) {
+                System.out.print(shortRoute[i].getNumber());
+            } else {
+                System.out.print(shortRoute[i].getNumber() + "-->");
+            }
         }
-        System.out.println(this.weight);
+        System.out.println(" Peso: " + this.weight);
     }
-    
+
     /**
      * Imprime todas las rutas generadas
-     * @param routes 
-     * Formula: (2n[2]+7x+2)/2 
+     *
+     * @param routes Formula: (2n[2]+7x+2)/2
      */
     private void printRoutes(Vertex[][] routes){
         Graph.lineas++;
@@ -124,9 +130,9 @@ public class GeneticAlgorithm {
 
     /**
      * Algoritmo genetico, cambia parcialmente una zona de la ruta
+     *
      * @param route Ruta para mutar
-     * @return Ruta mutada.
-     * Formula: (3x[2]+35x+28)/2
+     * @return Ruta mutada. Formula: (3x[2]+35x+28)/2
      */
     private Vertex[] partiallyMatchedCrossover(Vertex[] route) {
         //4*
@@ -153,7 +159,7 @@ public class GeneticAlgorithm {
                 route[i] = vertex2; // (n+2)/2
                 route[y] = vertex1; // (n+2)/2
                 y--; // -(n+2)/2
-            }    
+            }
             //(3n-14+3n[2])/2*
             Graph.lineas++;
             Graph.comparaciones++;
@@ -163,7 +169,7 @@ public class GeneticAlgorithm {
                 Vertex aux = route[i]; // (n-2)/2
                 Vertex aux2 = route[i + 1];  // (n-2)/2
                 Arc arc = aux.getArcToVertex(aux2);  // ((n-2)/2)(3n + 4)
-                System.out.print(aux.getNumber()+" -["+arc.getWeight()+"]-> "); //  (n-2)/2
+                System.out.print(aux.getNumber() + " -[" + arc.getWeight() + "]-> "); //  (n-2)/2
                 weight += arc.getWeight(); // (n-2)/2
             }else{
                 Graph.lineas++;
