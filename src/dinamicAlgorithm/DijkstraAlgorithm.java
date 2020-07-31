@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dinamicAlgorithm;
 
 /**
  *
  * @author pache
  */
-import com.sun.javafx.geom.Edge;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,8 +15,6 @@ import java.util.Set;
 import proyectoanalisisii.graph.Arc;
 import proyectoanalisisii.graph.Graph;
 import proyectoanalisisii.graph.Vertex;
-
-
 
 public class DijkstraAlgorithm {
 
@@ -37,18 +29,18 @@ public class DijkstraAlgorithm {
         // create a copy of the array so that we can operate on this array
         Vertex aux = graph.firstVertex;
         this.nodes = new ArrayList<Vertex>();
-        while(aux != graph.lastVertex){
+        while (aux != graph.lastVertex) {
             this.nodes.add(aux);
             aux = aux.nextVertex;
         }
         this.nodes.add(aux);
-        
+
         aux = graph.firstVertex;
         Arc auxArco;
         this.edges = new ArrayList<Arc>();
-        while(aux != graph.lastVertex){
+        while (aux != graph.lastVertex) {
             auxArco = aux.firstArc;
-            while(auxArco.nextArc != null){
+            while (auxArco.nextArc != null) {
                 edges.add(auxArco);
                 auxArco = auxArco.nextArc;
             }
