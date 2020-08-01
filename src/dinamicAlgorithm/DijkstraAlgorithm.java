@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ public class DijkstraAlgorithm {
 
     public DijkstraAlgorithm(Graph graph) {
         // create a copy of the array so that we can operate on this array
+        System.out.println("Fase 1 se llenan los las listas con la informacion de los grafos");
         Vertex aux = graph.firstVertex;
         this.nodes = new ArrayList<Vertex>();
         while (aux != graph.lastVertex) {
@@ -44,6 +46,7 @@ public class DijkstraAlgorithm {
                 edges.add(auxArco);
                 auxArco = auxArco.nextArc;
             }
+            edges.add(auxArco);
             aux = aux.nextVertex;
         }
     }
@@ -83,6 +86,20 @@ public class DijkstraAlgorithm {
             Graph.lineas++;
             Graph.asignaciones++;
             findMinimalDistances(node);
+        }
+        System.out.println("Fase 2 se encuentran las distancias");
+       
+        Iterator<Map.Entry<Vertex, Integer>> i = distance.entrySet().iterator(); 
+        while(i.hasNext()){
+            Vertex key = i.next().getKey();
+            System.out.println(key.getNumber()+", "+distance.get(key));
+        }
+    
+        System.out.println("Fase 3 se encuentran los predecesores");
+        Iterator<Map.Entry<Vertex, Vertex>> p = predecessors.entrySet().iterator(); 
+        while(p.hasNext()){
+            Vertex key = p.next().getKey();
+            System.out.println(key.getNumber()+", "+predecessors.get(key).getNumber());
         }
     }
 
@@ -211,6 +228,7 @@ public class DijkstraAlgorithm {
      * NULL if no path exists
      */
     public LinkedList<Vertex> getPath(Vertex target) {
+        System.out.println("Fase 4 se encuentra la mejor ruta");
         Graph.lineas++;
         Graph.asignaciones++;
         LinkedList<Vertex> path = new LinkedList<Vertex>();
