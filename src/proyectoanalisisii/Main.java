@@ -45,15 +45,16 @@ public class Main {
         graph.clearVars();
 
         //Dinamico
+        
+        System.out.println("--Dinamico--");
         before=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
         DijkstraAlgorithm disjkstra = new DijkstraAlgorithm(graph);
         start = System.currentTimeMillis();
         disjkstra.execute(graph.firstVertex);
         LinkedList<Vertex> path = disjkstra.getPath(graph.lastVertex);
         finish = System.currentTimeMillis();
-        System.out.println("--Dinamico--");
-        after=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory(); 
-        graph.printVars(finish - start,after - before);
+        
+        
         System.out.print("Mejor ruta:");
         int weight = 0;
         for (int i = 0; i < path.size(); i++) {
@@ -62,8 +63,12 @@ public class Main {
                 weight += path.get(i).getArcToVertex(path.get(i + 1)).getWeight();
             }
         }
-        System.out.print(" Peso: " + weight);
+        System.out.print("\n");
+        System.out.println("Fase 5 se encuentra el peso de toda la ruta");
+        System.out.print("Peso: " + weight);
         System.out.println("\n");
+        after=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory(); 
+        graph.printVars(finish - start,after - before);
 
         // Se limpian los contadores
         graph.clearVars();
