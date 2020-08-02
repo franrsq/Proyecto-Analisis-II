@@ -20,34 +20,40 @@ public class Main {
         graph.createGraph(10);
 
         //Voraz
+        long before=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory(); 
         VoraciousAlgorithm voracius = new VoraciousAlgorithm(graph);
         long start = System.currentTimeMillis();
         voracius.execute();
         long finish = System.currentTimeMillis();
-        graph.printVars(finish - start);
+        long after=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory(); 
+        graph.printVars(finish - start,after - before);
 
         // Se limpian los contadores
         graph.clearVars();
 
         //Genetico
+        before=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
         GeneticAlgorithm genetic = new GeneticAlgorithm(graph);
         start = System.currentTimeMillis();
         genetic.execute();
         genetic.printRoute();
         finish = System.currentTimeMillis();
-        graph.printVars(finish - start);
+        after=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory(); 
+        graph.printVars(finish - start,after - before);
 
         // Se limpian los contadores
         graph.clearVars();
 
         //Dinamico
+        before=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
         DijkstraAlgorithm disjkstra = new DijkstraAlgorithm(graph);
         start = System.currentTimeMillis();
         disjkstra.execute(graph.firstVertex);
         LinkedList<Vertex> path = disjkstra.getPath(graph.lastVertex);
         finish = System.currentTimeMillis();
         System.out.println("--Dinamico--");
-        graph.printVars(finish - start);
+        after=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory(); 
+        graph.printVars(finish - start,after - before);
         System.out.print("Mejor ruta:");
         int weight = 0;
         for (int i = 0; i < path.size(); i++) {
@@ -63,6 +69,7 @@ public class Main {
         graph.clearVars();
 
         //Backtracking
+        before=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
         Backtracking backtracking = new Backtracking(graph);
         System.out.println("--Backtracking--");
         start = System.currentTimeMillis();
@@ -75,12 +82,14 @@ public class Main {
         for (String ruta : backtracking.getRandomRoutes()) {
             System.out.println("    " + ruta);
         }
-        graph.printVars(finish - start);
+        after=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory(); 
+        graph.printVars(finish - start,after - before);
 
         // Se limpian los contadores
         graph.clearVars();
 
         //Poda
+        before=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
         PrunningAlgorithm prunning = new PrunningAlgorithm(graph);
         System.out.println("--Poda--");
         start = System.currentTimeMillis();
@@ -94,7 +103,12 @@ public class Main {
         for (String ruta : prunning.getPrunnedRoutes()) {
             System.out.println("    " + ruta);
         }
-        graph.printVars(finish - start);
+        after=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory(); 
+        graph.printVars(finish - start,after - before);
+
+        long last=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory(); 
+        System.out.println(last);
+        
     }
 
 }

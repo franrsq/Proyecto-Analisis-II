@@ -121,7 +121,7 @@ public class Graph {
         }
     }
 
-    public void printVars(float time) {
+    public void printVars(float time,long memory) {
         System.out.print("Timepo transcurrido: ");
         System.out.printf("Tiempo = %.3f S\n", time / 1000);
         System.out.print("Comparaciones: ");
@@ -130,6 +130,8 @@ public class Graph {
         System.out.println(asignaciones);
         System.out.print("Lineas de codigo: ");
         System.out.println(lineas);
+        System.out.print("Memoria: ");
+        System.out.println(memory/1024+" KB");
         System.out.println("\n");
         comparaciones = 0;
         asignaciones = 0;
