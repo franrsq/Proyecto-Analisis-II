@@ -1,4 +1,4 @@
-package dinamicAlgorithm;
+package proyectoanalisisii.dinamicAlgorithm;
 
 /**
  *
@@ -16,6 +16,8 @@ import java.util.Set;
 import proyectoanalisisii.graph.Arc;
 import proyectoanalisisii.graph.Graph;
 import proyectoanalisisii.graph.Vertex;
+import proyectoanalisisii.utils.Sizeof;
+import static proyectoanalisisii.utils.Sizeof.sizeof;
 
 public class DijkstraAlgorithm {
 
@@ -55,28 +57,37 @@ public class DijkstraAlgorithm {
         Graph.lineas++;
         Graph.asignaciones++;
         settledNodes = new HashSet<Vertex>();
+
         Graph.asignaciones++;
         Graph.lineas++;
         unSettledNodes = new HashSet<Vertex>();
+
         Graph.asignaciones++;
         Graph.lineas++;
         distance = new HashMap<Vertex, Integer>();
+
         Graph.asignaciones++;
         Graph.lineas++;
         predecessors = new HashMap<Vertex, Vertex>();
+
         Graph.asignaciones++;
         Graph.lineas++;
         distance.put(source, 0);
+
         Graph.asignaciones++;
         Graph.lineas++;
         unSettledNodes.add(source);
+        Graph.memory += sizeof(unSettledNodes);
+
         Graph.lineas++;
         Graph.comparaciones++;
         while (unSettledNodes.size() > 0) {
             Graph.comparaciones++;
             Graph.lineas++;
             Graph.asignaciones++;
+            Graph.memory += Sizeof.OBJECTREF_SIZE;
             Vertex node = getMinimum(unSettledNodes);
+
             Graph.lineas++;
             Graph.asignaciones++;
             settledNodes.add(node);
@@ -87,28 +98,37 @@ public class DijkstraAlgorithm {
             Graph.asignaciones++;
             findMinimalDistances(node);
         }
+        Graph.memory += sizeof(distance);
+        Graph.memory += sizeof(predecessors);
+        Graph.memory += sizeof(settledNodes);
         System.out.println("Fase 2 se encuentran las distancias");
-       
-        Iterator<Map.Entry<Vertex, Integer>> i = distance.entrySet().iterator(); 
-        while(i.hasNext()){
+
+        Graph.memory += Sizeof.OBJECTREF_SIZE;
+        Iterator<Map.Entry<Vertex, Integer>> i = distance.entrySet().iterator();
+        while (i.hasNext()) {
+            Graph.memory += Sizeof.OBJECTREF_SIZE;
             Vertex key = i.next().getKey();
-            System.out.println(key.getNumber()+", "+distance.get(key));
+            System.out.println(key.getNumber() + ", " + distance.get(key));
         }
-    
+
         System.out.println("Fase 3 se encuentran los predecesores");
-        Iterator<Map.Entry<Vertex, Vertex>> p = predecessors.entrySet().iterator(); 
-        while(p.hasNext()){
+        Graph.memory += Sizeof.OBJECTREF_SIZE;
+        Iterator<Map.Entry<Vertex, Vertex>> p = predecessors.entrySet().iterator();
+        while (p.hasNext()) {
+            Graph.memory += Sizeof.OBJECTREF_SIZE;
             Vertex key = p.next().getKey();
-            System.out.println(key.getNumber()+", "+predecessors.get(key).getNumber());
+            System.out.println(key.getNumber() + ", " + predecessors.get(key).getNumber());
         }
     }
 
     private void findMinimalDistances(Vertex node) {
         Graph.lineas++;
         Graph.asignaciones++;
-        List<Vertex> adjacentNodes = getNeighbors(node);
+        ArrayList<Vertex> adjacentNodes = getNeighbors(node);
+
         Graph.lineas++;
         Graph.comparaciones++;
+        Graph.memory += Sizeof.OBJECTREF_SIZE;
         for (Vertex target : adjacentNodes) {
             Graph.comparaciones++;
             Graph.lineas++;
@@ -133,6 +153,7 @@ public class DijkstraAlgorithm {
     private int getDistance(Vertex node, Vertex target) {
         Graph.lineas++;
         Graph.comparaciones++;
+        Graph.memory += Sizeof.OBJECTREF_SIZE;
         for (Arc edge : edges) {
             Graph.comparaciones++;
             Graph.lineas++;
@@ -148,12 +169,15 @@ public class DijkstraAlgorithm {
         throw new RuntimeException("Should not happen");
     }
 
-    private List<Vertex> getNeighbors(Vertex node) {
+    private ArrayList<Vertex> getNeighbors(Vertex node) {
         Graph.lineas++;
         Graph.asignaciones++;
-        List<Vertex> neighbors = new ArrayList<Vertex>();
+        Graph.memory += Sizeof.OBJECTREF_SIZE;
+        ArrayList<Vertex> neighbors = new ArrayList<>();
+
         Graph.lineas++;
         Graph.comparaciones++;
+        Graph.memory += Sizeof.OBJECTREF_SIZE;
         for (Arc edge : edges) {
             Graph.comparaciones++;
             Graph.lineas++;
@@ -166,6 +190,7 @@ public class DijkstraAlgorithm {
                 neighbors.add(edge.getDestination());
             }
         }
+        Graph.memory += sizeof(neighbors);
         Graph.asignaciones++;
         Graph.lineas++;
         return neighbors;
@@ -174,9 +199,12 @@ public class DijkstraAlgorithm {
     private Vertex getMinimum(Set<Vertex> vertexes) {
         Graph.lineas++;
         Graph.asignaciones++;
+        Graph.memory += Sizeof.OBJECTREF_SIZE;
         Vertex minimum = null;
+
         Graph.lineas++;
         Graph.comparaciones++;
+        Graph.memory += Sizeof.OBJECTREF_SIZE;
         for (Vertex vertex : vertexes) {
             Graph.lineas++;
             Graph.comparaciones++;
@@ -209,7 +237,9 @@ public class DijkstraAlgorithm {
     private int getShortestDistance(Vertex destination) {
         Graph.lineas++;
         Graph.asignaciones++;
+        Graph.memory += Sizeof.OBJECTREF_SIZE;
         Integer d = distance.get(destination);
+
         Graph.lineas++;
         Graph.comparaciones++;
         if (d == null) {
@@ -231,9 +261,12 @@ public class DijkstraAlgorithm {
         System.out.println("Fase 4 se encuentra la mejor ruta");
         Graph.lineas++;
         Graph.asignaciones++;
-        LinkedList<Vertex> path = new LinkedList<Vertex>();
+        Graph.memory += Sizeof.OBJECTREF_SIZE;
+        LinkedList<Vertex> path = new LinkedList<>();
+
         Graph.lineas++;
         Graph.asignaciones++;
+        Graph.memory += Sizeof.OBJECTREF_SIZE;
         Vertex step = target;
         // check if a path exists
         Graph.lineas++;
@@ -245,12 +278,14 @@ public class DijkstraAlgorithm {
         Graph.lineas++;
         Graph.asignaciones++;
         path.add(step);
+
         Graph.lineas++;
         Graph.comparaciones++;
         while (predecessors.get(step) != null) {
             Graph.lineas++;
             Graph.asignaciones++;
             step = predecessors.get(step);
+
             Graph.lineas++;
             Graph.asignaciones++;
             path.add(step);
@@ -259,8 +294,10 @@ public class DijkstraAlgorithm {
         Graph.lineas++;
         Graph.asignaciones++;
         Collections.reverse(path);
+
         Graph.asignaciones++;
         Graph.lineas++;
+        Graph.memory += sizeof(path);
         return path;
     }
 

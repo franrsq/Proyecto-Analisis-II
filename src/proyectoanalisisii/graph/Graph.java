@@ -1,5 +1,8 @@
 package proyectoanalisisii.graph;
 
+import proyectoanalisisii.utils.Sizeof;
+import static proyectoanalisisii.utils.Sizeof.sizeof;
+
 /**
  * Una clase que representa un grafo interconectado por varios {@link Arc}.
  */
@@ -11,7 +14,7 @@ public class Graph {
 
     public int total;
 
-    public static long asignaciones, comparaciones, lineas;
+    public static long asignaciones, comparaciones, lineas, memory;
 
     /**
      * Inserta un {@link Vertex} al grafo.
@@ -104,9 +107,10 @@ public class Graph {
      * Limpia las variables de los contadores.
      */
     public void clearVars() {
-        this.asignaciones = 0;
-        this.comparaciones = 0;
-        this.lineas = 0;
+        Graph.asignaciones = 0;
+        Graph.comparaciones = 0;
+        Graph.lineas = 0;
+        Graph.memory = 0;
     }
 
     /**
@@ -121,7 +125,7 @@ public class Graph {
         }
     }
 
-    public void printVars(float time,long memory) {
+    public void printVars(float time) {
         System.out.print("Timepo transcurrido: ");
         System.out.printf("Tiempo = %.3f S\n", time / 1000);
         System.out.print("Comparaciones: ");
@@ -131,7 +135,7 @@ public class Graph {
         System.out.print("Lineas de codigo: ");
         System.out.println(lineas);
         System.out.print("Memoria: ");
-        System.out.println(memory/1024+" KB");
+        System.out.println(memory / 1024 + " KB");
         System.out.println("\n");
         comparaciones = 0;
         asignaciones = 0;
@@ -147,11 +151,13 @@ public class Graph {
     public Vertex getVertexInPosition(int index) {
         lineas++;
         asignaciones++;
+        memory += Sizeof.OBJECTREF_SIZE;
         Vertex aux = this.firstVertex; //
 
         lineas++;
         asignaciones++;
         comparaciones++;
+        memory += Integer.SIZE;
         for (int i = 1; i <= index; i++) { // 1 + n+1 +n
             lineas++;
             comparaciones++;
@@ -169,11 +175,13 @@ public class Graph {
      * Genera una Ruta aleatoria.
      *
      * @param length Longitud de la ruta. Formula: 7n[2]-8n+6 (Cuadratica).
+     * @return
      */
     public Vertex[] generateRandomRoute(int length) {
         lineas++;
         asignaciones++;
         Vertex randomRoute[] = new Vertex[length]; //1
+        memory += sizeof(randomRoute);
 
         lineas++;
         asignaciones++;
@@ -182,12 +190,14 @@ public class Graph {
         lineas++;
         asignaciones++;
         comparaciones++;
+        memory += Integer.SIZE;
         for (int i = 1; i < length - 1; i++) { //1 +n-1 + n-2
             lineas++;
             comparaciones++;
 
             lineas++;
             asignaciones++;
+            memory += Sizeof.OBJECTREF_SIZE;
             Vertex randomVertex = this.getRandomVertex(); // (n-2)(7n+2)
 
             lineas++;
@@ -216,10 +226,12 @@ public class Graph {
     public Vertex getRandomVertex() {
         lineas++;
         asignaciones++;
+        memory += Integer.SIZE;
         int randomPosition = (int) (Math.random() * (this.total - 2)) + 1; //1
 
         lineas++;
         asignaciones++;
+        memory += Sizeof.OBJECTREF_SIZE;
         Vertex randomVertex = this.getVertexInPosition(randomPosition); // 3n + 6
 
         lineas++;
@@ -243,10 +255,13 @@ public class Graph {
     public Vertex getFirstVertexAvailable() {
         lineas++;
         asignaciones++;
+        memory += Sizeof.OBJECTREF_SIZE;
         Vertex aux = this.firstVertex.nextVertex; //1
+
         lineas++;
         asignaciones++;
         comparaciones++;
+        memory += Integer.SIZE;
         for (int i = 1; i < this.total - 2; i++) { // 1+ n-2 +n-3
             lineas++;
             comparaciones++;

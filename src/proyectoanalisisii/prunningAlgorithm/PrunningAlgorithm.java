@@ -1,11 +1,14 @@
-package prunningAlgorithm;
+package proyectoanalisisii.prunningAlgorithm;
 
 import proyectoanalisisii.graph.Arc;
 import proyectoanalisisii.graph.Graph;
 import static proyectoanalisisii.graph.Graph.asignaciones;
 import static proyectoanalisisii.graph.Graph.comparaciones;
 import static proyectoanalisisii.graph.Graph.lineas;
+import static proyectoanalisisii.graph.Graph.memory;
 import proyectoanalisisii.graph.Vertex;
+import static proyectoanalisisii.utils.Sizeof.OBJECTREF_SIZE;
+import static proyectoanalisisii.utils.Sizeof.sizeof;
 
 public class PrunningAlgorithm {
 
@@ -34,6 +37,11 @@ public class PrunningAlgorithm {
     }
 
     private void prunning(Vertex origin, int totalDistance, String route) {
+        // Nuevo String de ruta y nueva distancia, Vertex es una referencia
+        // a un objeto, los String pot otro lado son inmutables así que hay 
+        // que contarlos como uno nuevo cada vez que se cambian
+        memory += Integer.SIZE + sizeof(route) + OBJECTREF_SIZE;
+
         comparaciones += 2;
         lineas++;
         if ((origin == null) || (origin.mark)) {
@@ -51,6 +59,7 @@ public class PrunningAlgorithm {
                 lineas++;
                 prunnedRoutes[prunnedRoutesQuantity] = route + " Peso: "
                         + totalDistance + " > " + finalDistance;
+                memory += sizeof(prunnedRoutes[prunnedRoutesQuantity]);
             }
 
             asignaciones++;
@@ -88,6 +97,7 @@ public class PrunningAlgorithm {
 
         lineas++;
         asignaciones++;
+        memory += OBJECTREF_SIZE;
         Arc tempArc = origin.firstArc;
 
         lineas++;
