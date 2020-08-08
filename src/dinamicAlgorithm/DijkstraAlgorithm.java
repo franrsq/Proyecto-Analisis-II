@@ -51,41 +51,42 @@ public class DijkstraAlgorithm {
         }
     }
 
-    public void execute(Vertex source) {
+    public void execute(Vertex source) {  // 6n^3+28n^2+10n+7
         Graph.lineas++;
         Graph.asignaciones++;
-        settledNodes = new HashSet<Vertex>();
+        settledNodes = new HashSet<Vertex>();  //1
         Graph.asignaciones++;
         Graph.lineas++;
-        unSettledNodes = new HashSet<Vertex>();
+        unSettledNodes = new HashSet<Vertex>();  //1
         Graph.asignaciones++;
         Graph.lineas++;
-        distance = new HashMap<Vertex, Integer>();
+        distance = new HashMap<Vertex, Integer>();  //1
         Graph.asignaciones++;
         Graph.lineas++;
-        predecessors = new HashMap<Vertex, Vertex>();
+        predecessors = new HashMap<Vertex, Vertex>();  //1
         Graph.asignaciones++;
         Graph.lineas++;
-        distance.put(source, 0);
+        distance.put(source, 0);  //1
         Graph.asignaciones++;
         Graph.lineas++;
-        unSettledNodes.add(source);
+        unSettledNodes.add(source); //1
         Graph.lineas++;
         Graph.comparaciones++;
-        while (unSettledNodes.size() > 0) {
+        while (unSettledNodes.size() > 0) { //n+1
+            Graph.lineas++;
             Graph.comparaciones++;
             Graph.lineas++;
             Graph.asignaciones++;
-            Vertex node = getMinimum(unSettledNodes);
+            Vertex node = getMinimum(unSettledNodes);  //(9n+4) = 9n^2+4n
             Graph.lineas++;
             Graph.asignaciones++;
-            settledNodes.add(node);
+            settledNodes.add(node); //n
             Graph.lineas++;
             Graph.asignaciones++;
-            unSettledNodes.remove(node);
+            unSettledNodes.remove(node);  //n
             Graph.lineas++;
             Graph.asignaciones++;
-            findMinimalDistances(node);
+            findMinimalDistances(node);  //(6n^2+19n+3)n = 6n^3+19n^2+3n
         }
         System.out.println("Fase 2 se encuentran las distancias");
        
@@ -103,123 +104,129 @@ public class DijkstraAlgorithm {
         }
     }
 
-    private void findMinimalDistances(Vertex node) {
+    private void findMinimalDistances(Vertex node) {  //6n^2+19n+3
         Graph.lineas++;
         Graph.asignaciones++;
-        List<Vertex> adjacentNodes = getNeighbors(node);
+        List<Vertex> adjacentNodes = getNeighbors(node);  //3n+2
         Graph.lineas++;
         Graph.comparaciones++;
-        for (Vertex target : adjacentNodes) {
+        for (Vertex target : adjacentNodes) {  //n+1
+            Graph.lineas++;
             Graph.comparaciones++;
             Graph.lineas++;
             Graph.comparaciones++;
             if (getShortestDistance(target) > getShortestDistance(node)
-                    + getDistance(node, target)) {
+                    + getDistance(node, target)) {  //n(3n+8) = 3n^2+8n
                 Graph.lineas++;
                 Graph.asignaciones++;
                 distance.put(target, getShortestDistance(node)
-                        + getDistance(node, target));
+                        + getDistance(node, target)); //n(3n+5) = 3n^2+5n
                 Graph.lineas++;
                 Graph.asignaciones++;
-                predecessors.put(target, node);
+                predecessors.put(target, node);  //n
                 Graph.lineas++;
                 Graph.asignaciones++;
-                unSettledNodes.add(target);
+                unSettledNodes.add(target);  //n
             }
         }
 
     }
 
-    private int getDistance(Vertex node, Vertex target) {
+    private int getDistance(Vertex node, Vertex target) { //3n+2
         Graph.lineas++;
         Graph.comparaciones++;
-        for (Arc edge : edges) {
+        for (Arc edge : edges) {  //n+1
             Graph.comparaciones++;
+            Graph.lineas++;
             Graph.lineas++;
             Graph.comparaciones++;
             Graph.comparaciones++;
+            Graph.lineas++;
             if (edge.getSource().equals(node)
-                    && edge.getDestination().equals(target)) {
+                    && edge.getDestination().equals(target)) {  //2n
                 Graph.lineas++;
                 Graph.asignaciones++;
-                return edge.getWeight();
+                return edge.getWeight(); //1
             }
         }
         throw new RuntimeException("Should not happen");
     }
 
-    private List<Vertex> getNeighbors(Vertex node) {
+    private List<Vertex> getNeighbors(Vertex node) { //4n+3
         Graph.lineas++;
         Graph.asignaciones++;
-        List<Vertex> neighbors = new ArrayList<Vertex>();
+        List<Vertex> neighbors = new ArrayList<Vertex>();  //1
         Graph.lineas++;
         Graph.comparaciones++;
-        for (Arc edge : edges) {
+        for (Arc edge : edges) {  //n+1
             Graph.comparaciones++;
             Graph.lineas++;
             Graph.comparaciones++;
+            Graph.lineas++;
             Graph.comparaciones++;
+            Graph.lineas++;
             if (edge.getSource().equals(node)
-                    && !isSettled(edge.getDestination())) {
+                    && !isSettled(edge.getDestination())) {  //2n
                 Graph.lineas++;
                 Graph.asignaciones++;
-                neighbors.add(edge.getDestination());
+                neighbors.add(edge.getDestination()); //n
             }
         }
         Graph.asignaciones++;
         Graph.lineas++;
-        return neighbors;
+        return neighbors;  //1
     }
 
-    private Vertex getMinimum(Set<Vertex> vertexes) {
+    private Vertex getMinimum(Set<Vertex> vertexes) {  //9n+4
         Graph.lineas++;
         Graph.asignaciones++;
-        Vertex minimum = null;
+        Vertex minimum = null;  //1
         Graph.lineas++;
         Graph.comparaciones++;
-        for (Vertex vertex : vertexes) {
+        for (Vertex vertex : vertexes) {  //n+1
             Graph.lineas++;
             Graph.comparaciones++;
             Graph.comparaciones++;
-            if (minimum == null) {
+            Graph.lineas++;
+            if (minimum == null) {  //n
                 Graph.lineas++;
                 Graph.asignaciones++;
-                minimum = vertex;
+                minimum = vertex; //1
             } else {
                 Graph.lineas++;
                 Graph.comparaciones++;
-                if (getShortestDistance(vertex) < getShortestDistance(minimum)) {
+                if (getShortestDistance(vertex) < getShortestDistance(minimum)) {  //6n
                     Graph.lineas++;
                     Graph.asignaciones++;
-                    minimum = vertex;
+                    minimum = vertex;  //n
                 }
             }
         }
         Graph.asignaciones++;
         Graph.lineas++;
-        return minimum;
+        return minimum;  //1
     }
 
-    private boolean isSettled(Vertex vertex) {
+    private boolean isSettled(Vertex vertex) { //1
         Graph.lineas++;
         Graph.asignaciones++;
-        return settledNodes.contains(vertex);
+        return settledNodes.contains(vertex); //1
     }
 
-    private int getShortestDistance(Vertex destination) {
+    private int getShortestDistance(Vertex destination) { //3
         Graph.lineas++;
         Graph.asignaciones++;
-        Integer d = distance.get(destination);
+        Integer d = distance.get(destination);  //1
         Graph.lineas++;
         Graph.comparaciones++;
-        if (d == null) {
+        if (d == null) {  //1
             Graph.lineas++;
             Graph.asignaciones++;
-            return Integer.MAX_VALUE;
+            return Integer.MAX_VALUE;  //1
         } else {
             Graph.asignaciones++;
             Graph.lineas++;
-            return d;
+            return d; //1
         }
     }
 
@@ -227,41 +234,43 @@ public class DijkstraAlgorithm {
      * This method returns the path from the source to the selected target and
      * NULL if no path exists
      */
-    public LinkedList<Vertex> getPath(Vertex target) {
+    public LinkedList<Vertex> getPath(Vertex target) {  //4n+8
         System.out.println("Fase 4 se encuentra la mejor ruta");
         Graph.lineas++;
         Graph.asignaciones++;
-        LinkedList<Vertex> path = new LinkedList<Vertex>();
+        LinkedList<Vertex> path = new LinkedList<Vertex>(); //1
         Graph.lineas++;
         Graph.asignaciones++;
-        Vertex step = target;
+        Vertex step = target;  //1
         // check if a path exists
         Graph.lineas++;
         Graph.comparaciones++;
-        if (predecessors.get(step) == null) {
+        if (predecessors.get(step) == null) {  //1
             Graph.lineas++;
-            return null;
+            return null;  //1
         }
         Graph.lineas++;
         Graph.asignaciones++;
-        path.add(step);
+        path.add(step);  //1
         Graph.lineas++;
         Graph.comparaciones++;
-        while (predecessors.get(step) != null) {
+        while (predecessors.get(step) != null) {  //n+1
+            Graph.lineas++;
+            Graph.comparaciones++;
             Graph.lineas++;
             Graph.asignaciones++;
-            step = predecessors.get(step);
+            step = predecessors.get(step);  //n
             Graph.lineas++;
             Graph.asignaciones++;
-            path.add(step);
+            path.add(step);  //n
         }
         // Put it into the correct order
         Graph.lineas++;
         Graph.asignaciones++;
-        Collections.reverse(path);
+        Collections.reverse(path);  //1
         Graph.asignaciones++;
         Graph.lineas++;
-        return path;
+        return path;  //1
     }
 
 }
