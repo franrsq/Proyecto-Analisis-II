@@ -1,4 +1,4 @@
-package backtrackingAlgorithm;
+package proyectoanalisisii.backtrackingAlgorithm;
 
 import proyectoanalisisii.graph.Arc;
 import proyectoanalisisii.graph.Graph;
@@ -6,6 +6,9 @@ import proyectoanalisisii.graph.Vertex;
 import static proyectoanalisisii.graph.Graph.asignaciones;
 import static proyectoanalisisii.graph.Graph.comparaciones;
 import static proyectoanalisisii.graph.Graph.lineas;
+import static proyectoanalisisii.graph.Graph.memory;
+import static proyectoanalisisii.utils.Sizeof.OBJECTREF_SIZE;
+import static proyectoanalisisii.utils.Sizeof.sizeof;
 
 /**
  * Clase para el algoritmo de backtracking.
@@ -15,9 +18,9 @@ public class Backtracking {
     private Graph graph;
     private int finalDistance;
     private String finalRoute;
-    private int validRoutes;
+    private long validRoutes;
     private String[] randomRoutes;
-    private int[] ramdomRoutesNumbers = new int[5];
+    private long[] ramdomRoutesNumbers = new long[5];
 
     public Backtracking(Graph graph) {
         this.graph = graph;
@@ -29,20 +32,20 @@ public class Backtracking {
         validRoutes = 0;
 
         randomRoutes = new String[5];
-        int maxRandom = calcValidRoutes();
+        long maxRandom = calcValidRoutes();
 
         for (int i = 0; i < randomRoutes.length; i++) {
             ramdomRoutesNumbers[i] = (int) (Math.random() * maxRandom + 1);
         }
     }
 
-    private int calcValidRoutes() {
-        int graphTotal = graph.total - 2;
-        int total = 1;
+    public long calcValidRoutes() {
+        long graphTotal = graph.total - 2;
+        long total = 1;
 
-        for (int i = graphTotal; i >= 1; i--) {
-            int mulResult = 1;
-            for (int j = graphTotal; j >= i; j--) {
+        for (long i = graphTotal; i >= 1; i--) {
+            long mulResult = 1;
+            for (long j = graphTotal; j >= i; j--) {
                 mulResult *= j;
             }
             total += mulResult;
@@ -54,11 +57,17 @@ public class Backtracking {
         graph.clearMarks();
         graph.clearVars();
         clearFinalRoute();
+
         backtracking(graph.firstVertex, 0,
                 String.valueOf(graph.firstVertex.getNumber()));
     }
 
     private void backtracking(Vertex origin, int totalDistance, String route) {
+        // Nuevo String de ruta y nueva distancia, Vertex es una referencia
+        // a un objeto, los String pot otro lado son inmutables así que hay 
+        // que contarlos como uno nuevo cada vez que se cambian
+        memory += Integer.SIZE + sizeof(route) + OBJECTREF_SIZE;
+
         comparaciones += 2;
         lineas++;
         if ((origin == null) || (origin.mark)) {
@@ -79,13 +88,16 @@ public class Backtracking {
             lineas++;
             asignaciones++;
             comparaciones++;
-            for (int j = 0; j < ramdomRoutesNumbers.length; j++) {
+
+            // Declaración de variable del loop
+            memory += Integer.SIZE;
+            for (int i = 0; i < ramdomRoutesNumbers.length; i++) {
                 comparaciones++;
                 lineas++;
-                if (validRoutes == ramdomRoutesNumbers[j]) {
+                if (validRoutes == ramdomRoutesNumbers[i]) {
                     asignaciones++;
                     lineas++;
-                    randomRoutes[j] = route;
+                    randomRoutes[i] = route;
 
                     lineas++;
                     break;
@@ -116,6 +128,7 @@ public class Backtracking {
 
         lineas++;
         asignaciones++;
+        memory += OBJECTREF_SIZE;
         Arc tempArc = origin.firstArc;
 
         lineas++;
@@ -155,7 +168,7 @@ public class Backtracking {
         this.finalRoute = finalRoute;
     }
 
-    public int getValidRoutesSize() {
+    public long getValidRoutesSize() {
         return validRoutes;
     }
 

@@ -1,10 +1,13 @@
-package voraciousAlgorithm;
+package proyectoanalisisii.voraciousAlgorithm;
 
 import proyectoanalisisii.graph.Arc;
 import proyectoanalisisii.graph.Graph;
 import static proyectoanalisisii.graph.Graph.asignaciones;
 import static proyectoanalisisii.graph.Graph.comparaciones;
 import static proyectoanalisisii.graph.Graph.lineas;
+import static proyectoanalisisii.graph.Graph.memory;
+import static proyectoanalisisii.utils.Sizeof.OBJECTREF_SIZE;
+import static proyectoanalisisii.utils.Sizeof.sizeof;
 import proyectoanalisisii.graph.Vertex;
 
 /**
@@ -28,12 +31,16 @@ public class VoraciousAlgorithm {
         System.out.println("--Voraz--");
         lineas++;
         asignaciones++;
+
+        memory += 2 * OBJECTREF_SIZE; // 2 referencias a memoria nuevas
         Vertex aux = this.graph.firstVertex; //1
         Arc auxArc;
 
         lineas++;
         asignaciones++;
+        memory += Integer.SIZE;
         int weight = 0; //1
+
         lineas++;
         comparaciones++;
         while (true) {  //n
@@ -43,6 +50,7 @@ public class VoraciousAlgorithm {
             //busca el primer arco libre y de menor peso 
             lineas++;
             asignaciones++;
+            memory += OBJECTREF_SIZE; // referencia a memoria
             Arc less = null; // n
 
             lineas++;

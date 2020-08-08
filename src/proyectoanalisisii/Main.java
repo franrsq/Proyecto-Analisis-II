@@ -1,13 +1,13 @@
 package proyectoanalisisii;
 
-import backtrackingAlgorithm.Backtracking;
-import dinamicAlgorithm.DijkstraAlgorithm;
-import geneticAlgorithm.GeneticAlgorithm;
+import proyectoanalisisii.backtrackingAlgorithm.Backtracking;
+import proyectoanalisisii.dinamicAlgorithm.DijkstraAlgorithm;
+import proyectoanalisisii.geneticAlgorithm.GeneticAlgorithm;
 import java.util.LinkedList;
 import proyectoanalisisii.graph.Graph;
 import proyectoanalisisii.graph.Vertex;
-import prunningAlgorithm.PrunningAlgorithm;
-import voraciousAlgorithm.VoraciousAlgorithm;
+import proyectoanalisisii.prunningAlgorithm.PrunningAlgorithm;
+import proyectoanalisisii.voraciousAlgorithm.VoraciousAlgorithm;
 
 public class Main {
 
@@ -47,6 +47,7 @@ public class Main {
         disjkstra.execute(graph.firstVertex);
         LinkedList<Vertex> path = disjkstra.getPath(graph.lastVertex);
         finish = System.currentTimeMillis();
+
         System.out.print("Mejor ruta:");
         int weight = 0;
         for (int i = 0; i < path.size(); i++) {
@@ -97,6 +98,7 @@ public class Main {
             System.out.println("    " + ruta);
         }
         graph.printVars(finish - start);
+
     }
 
 }

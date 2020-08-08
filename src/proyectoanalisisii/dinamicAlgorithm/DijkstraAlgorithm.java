@@ -1,4 +1,4 @@
-package dinamicAlgorithm;
+package proyectoanalisisii.dinamicAlgorithm;
 
 /**
  *
@@ -16,6 +16,8 @@ import java.util.Set;
 import proyectoanalisisii.graph.Arc;
 import proyectoanalisisii.graph.Graph;
 import proyectoanalisisii.graph.Vertex;
+import proyectoanalisisii.utils.Sizeof;
+import static proyectoanalisisii.utils.Sizeof.sizeof;
 
 public class DijkstraAlgorithm {
 
@@ -88,19 +90,26 @@ public class DijkstraAlgorithm {
             Graph.asignaciones++;
             findMinimalDistances(node);  //(6n^2+19n+3)n = 6n^3+19n^2+3n
         }
+        Graph.memory += sizeof(distance);
+        Graph.memory += sizeof(predecessors);
+        Graph.memory += sizeof(settledNodes);
         System.out.println("Fase 2 se encuentran las distancias");
-       
-        Iterator<Map.Entry<Vertex, Integer>> i = distance.entrySet().iterator(); 
-        while(i.hasNext()){
+
+        Graph.memory += Sizeof.OBJECTREF_SIZE;
+        Iterator<Map.Entry<Vertex, Integer>> i = distance.entrySet().iterator();
+        while (i.hasNext()) {
+            Graph.memory += Sizeof.OBJECTREF_SIZE;
             Vertex key = i.next().getKey();
-            System.out.println(key.getNumber()+", "+distance.get(key));
+            System.out.println(key.getNumber() + ", " + distance.get(key));
         }
-    
+
         System.out.println("Fase 3 se encuentran los predecesores");
-        Iterator<Map.Entry<Vertex, Vertex>> p = predecessors.entrySet().iterator(); 
-        while(p.hasNext()){
+        Graph.memory += Sizeof.OBJECTREF_SIZE;
+        Iterator<Map.Entry<Vertex, Vertex>> p = predecessors.entrySet().iterator();
+        while (p.hasNext()) {
+            Graph.memory += Sizeof.OBJECTREF_SIZE;
             Vertex key = p.next().getKey();
-            System.out.println(key.getNumber()+", "+predecessors.get(key).getNumber());
+            System.out.println(key.getNumber() + ", " + predecessors.get(key).getNumber());
         }
     }
 
